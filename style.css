@@ -1,0 +1,52 @@
+@charset "utf-8";
+
+.tudo{font-family: Arial;}
+.data{font-size: 15; font-weight: bold }
+.titulo{font-size: 25}
+.descricao{font-size: 15}
+.sobre{font-size: 25}
+.sobredesc{font-size: 15}
+.contatos{font-size: 25}
+.contato{font-size: 15}
+.esq{width: 50%}
+.dir{width: 50%}
+.rodape{font-size: 25; font-weight: bold}
+.rodape2{font-size: 15; font-weight: bold}
+
+#todosite{
+	display:block ;
+  	justify-content: center;
+  	align-items: center;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: 4px;
+  font-weight: 600;
+  margin: 0 10px;
+  width: 200px;
+  padding: 10px 0;
+  box-shadow: 0 0 20px rgba(104, 85, 224, 0.2);
+  transition: 0.4s;
+}
+
+#divBusca{
+  background-color:#2F4F4F;
+  border:solid 1px;
+  border-radius:15px;
+  width:600px;
+padding-left:55px;
+}
+
+#txtBusca{
+  float:left;
+  background-color:transparent;
+  padding-left:5px;
+  font-style:italic;
+  font-size:18px;
+  border:none;
+  height:32px;
+  width:660px;
+	margin-left: 350px;
+}
