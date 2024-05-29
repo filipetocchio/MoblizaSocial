@@ -34,7 +34,7 @@ const Navbar = () => {
       <div
         className={`${
           isOpen ? "" : "hidden"
-        } shadow-md min-w-60 h-screen bg-bg-navbar`}
+        } shadow-md min-w-60 h-100vh bg-bg-navbar flex flex-col justify-between`}
       >
         <div className="flex flex-col mt-12 items-center gap-4">
           <img
@@ -74,9 +74,11 @@ const Navbar = () => {
               Chat
             </button>
           </Link>
+        </div>
 
+        <div className="flex flex-col items-center gap-4 mb-4 mt-4">
           {user && (
-            <div className="flex items-center mt-[300px] w-auto flex-row text-center w-[8rem]">
+            <div className="flex items-center flex-row text-center w-[8rem]">
               <img src={Photo} alt="Foto do usuário" />
               <h1 className="ml-2 text-white font-Inter">João da Silva</h1>
             </div>

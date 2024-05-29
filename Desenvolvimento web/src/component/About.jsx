@@ -25,8 +25,8 @@ const About = () => {
       </div>
 
       <div className="flex flex-col gap-4 mt-4 md:grid md:grid-cols-2">
-        <img className="w-full" src={foto2} alt="foto 2" />
-        <img className="w-full" src={foto3} alt="foto 3" />
+        <img className="h-[calc(100%_-_1rem)] w-[calc(100%_-_6rem)]" src={foto2} alt="foto 2" />
+        <img className="w-[calc(100%_-_9rem)]" src={foto3} alt="foto 3" />
       </div>
     </div>
   );

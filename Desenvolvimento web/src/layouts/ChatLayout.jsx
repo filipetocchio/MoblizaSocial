@@ -5,8 +5,8 @@ import ChatBar from "../component/Chatbar";
 
 export function ChatLayout() {
   return (
-    <div className="flex h-screen">
-        <Navbar />
+    <div className="flex h-full">
+        <Navbar/>
         <Chat className="flex-grow" />
         <ChatBar />
       <Outlet />
