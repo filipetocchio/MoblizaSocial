@@ -1,305 +1,154 @@
-#include <iostream>
-#include <string>
-#include <unordered_map>
-#include <vector>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-using namespace std;
+typedef struct Usuario {
+    char email[50];
+    char senha[50];
+    char nome[50];
+    char cpf[12];
+    char endereco[100];
+    char contatos[50];
+    struct Usuario *esquerda;
+    struct Usuario *direita;
+} Usuario;
 
-// Estrutura para armazenar informações de login
-struct User {
-    string email;
-    string senha;
-};
+typedef struct ORG {
+    char email[50];
+    char senha[50];
+    char nome_fantasia[50];
+    char razao_social[50];
+    char cnpj[18];
+    char endereco[100];
+    char contato[50];
+    char descricao[100];
+    char categoria[50];
+    struct ORG *esquerda;
+    struct ORG *direita;
+} ORG;
 
-// Estrutura para armazenar informações detalhadas de registro
-struct UsuarioComum {
-    string nome;
-    string cpf;
-    string endereco;
-    string contatos;
-    string email;
-    string senha;
-};
+typedef struct ADM {
+    char nome[50];
+    char senha[50];
+    struct ADM *esquerda;
+    struct ADM *direita;
+} ADM;
 
-struct ORG {
-    string nomeFantasia;
-    string razaoSocial;
-    string cnpj;
-    string endereco;
-    string contato;
-    string descricao;
-    string categoria;
-    string email;
-    string senha;
-};
-
-struct ADM {
-    string nome;
-    string senha;
-};
-
-// Estrutura para representar cada nó da árvore de menus
-struct MenuNode {
-    string name;
-    vector<MenuNode*> children;
-
-    MenuNode(string n) : name(n) {}
-};
-
-// Funções de menu
-void mostrarMenu(MenuNode* node);
-void mostrarMenuUsuario();
-void mostrarMenuORG();
-void mostrarMenuADM();
-void configurarTema();
-void configurarConta();
-void mostrarTermos();
-void falarConosco();
-void sobreNos();
-
-// Mapas para armazenar usuários
-unordered_map<string, UsuarioComum> usuariosComuns;
-unordered_map<string, ORG> orgs;
-unordered_map<string, ADM> adms;
-
-void registrarUsuarioComum() {
-    UsuarioComum user;
-    cout << "\n\tRegistro de Usuário Comum\n";
-    cout << "\n\tNome: ";
-    getline(cin, user.nome);
-    cout << "\n\tCPF: ";
-    getline(cin, user.cpf);
-    cout << "\n\tEndereço: ";
-    getline(cin, user.endereco);
-    cout << "\n\tContatos: ";
-    getline(cin, user.contatos);
-    cout << "\n\tEmail: ";
-    getline(cin, user.email);
-    cout << "\n\tSenha: ";
-    getline(cin, user.senha);
-    usuariosComuns[user.email] = user;
-    cout << "\n\tRegistro concluído!\n";
+Usuario* criarUsuario(char* email, char* senha, char* nome, char* cpf, char* endereco, char* contatos) {
+    Usuario* novo = (Usuario*)malloc(sizeof(Usuario));
+    strcpy(novo->email, email);
+    strcpy(novo->senha, senha);
+    strcpy(novo->nome, nome);
+    strcpy(novo->cpf, cpf);
+    strcpy(novo->endereco, endereco);
+    strcpy(novo->contatos, contatos);
+    novo->esquerda = novo->direita = NULL;
+    return novo;
 }
 
-void registrarORG() {
-    ORG org;
-    cout << "\n\tRegistro de ORG\n";
-    cout << "\n\tNome Fantasia: ";
-    getline(cin, org.nomeFantasia);
-    cout << "\n\tRazão Social: ";
-    getline(cin, org.razaoSocial);
-    cout << "\n\tCNPJ: ";
-    getline(cin, org.cnpj);
-    cout << "\n\tEndereço: ";
-    getline(cin, org.endereco);
-    cout << "\n\tContato: ";
-    getline(cin, org.contato);
-    cout << "\n\tDescrição: ";
-    getline(cin, org.descricao);
-    cout << "\n\tCategoria: ";
-    getline(cin, org.categoria);
-    cout << "\n\tEmail: ";
-    getline(cin, org.email);
-    cout << "\n\tSenha: ";
-    getline(cin, org.senha);
-    orgs[org.email] = org;
-    cout << "\n\tRegistro concluído!\n";
+ORG* criarORG(char* email, char* senha, char* nome_fantasia, char* razao_social, char* cnpj, char* endereco, char* contato, char* descricao, char* categoria) {
+    ORG* novo = (ORG*)malloc(sizeof(ORG));
+    strcpy(novo->email, email);
+    strcpy(novo->senha, senha);
+    strcpy(novo->nome_fantasia, nome_fantasia);
+    strcpy(novo->razao_social, razao_social);
+    strcpy(novo->cnpj, cnpj);
+    strcpy(novo->endereco, endereco);
+    strcpy(novo->contato, contato);
+    strcpy(novo->descricao, descricao);
+    strcpy(novo->categoria, categoria);
+    novo->esquerda = novo->direita = NULL;
+    return novo;
 }
 
-void registrarADM() {
-    ADM adm;
-    cout << "\n\tRegistro de ADM\n";
-    cout << "\n\tNome: ";
-    getline(cin, adm.nome);
-    cout << "\n\tSenha: ";
-    getline(cin, adm.senha);
-    adms[adm.nome] = adm;
-    cout << "\n\tRegistro concluído!\n";
+ADM* criarADM(char* nome, char* senha) {
+    ADM* novo = (ADM*)malloc(sizeof(ADM));
+    strcpy(novo->nome, nome);
+    strcpy(novo->senha, senha);
+    novo->esquerda = novo->direita = NULL;
+    return novo;
 }
 
-bool loginUsuarioComum() {
-    string email, senha;
-    cout << "\n\tLogin de Usuário Comum\n";
-    cout << "\n\tEmail: ";
-    getline(cin, email);
-    cout << "\n\tSenha: ";
-    getline(cin, senha);
-    if (usuariosComuns.find(email) != usuariosComuns.end() && usuariosComuns[email].senha == senha) {
-        cout << "\n\tLogin bem-sucedido!\n";
-        mostrarMenuUsuario();
-        return true;
-    }
-    cout << "\n\tEmail ou senha incorretos.\n";
-    return false;
+Usuario* inserirUsuario(Usuario* raiz, Usuario* novo) {
+    if (raiz == NULL) return novo;
+    if (strcmp(novo->email, raiz->email) < 0)
+        raiz->esquerda = inserirUsuario(raiz->esquerda, novo);
+    else
+        raiz->direita = inserirUsuario(raiz->direita, novo);
+    return raiz;
 }
 
-bool loginORG() {
-    string email, senha;
-    cout << "\n\tLogin de ORG\n";
-    cout << "\n\tEmail: ";
-    getline(cin, email);
-    cout << "\n\tSenha: ";
-    getline(cin, senha);
-    if (orgs.find(email) != orgs.end() && orgs[email].senha == senha) {
-        cout << "\n\tLogin bem-sucedido!\n";
-        mostrarMenuORG();
-        return true;
-    }
-    cout << "\n\tEmail ou senha incorretos.\n";
-    return false;
+ORG* inserirORG(ORG* raiz, ORG* novo) {
+    if (raiz == NULL) return novo;
+    if (strcmp(novo->email, raiz->email) < 0)
+        raiz->esquerda = inserirORG(raiz->esquerda, novo);
+    else
+        raiz->direita = inserirORG(raiz->direita, novo);
+    return raiz;
 }
 
-bool loginADM() {
-    string nome, senha;
-    cout << "\n\tLogin de ADM\n";
-    cout << "\n\tNome: ";
-    getline(cin, nome);
-    cout << "\n\tSenha: ";
-    getline(cin, senha);
-    if (adms.find(nome) != adms.end() && adms[nome].senha == senha) {
-        cout << "\n\tLogin bem-sucedido!\n";
-        mostrarMenuADM();
-        return true;
-    }
-    cout << "\n\tNome ou senha incorretos.\n";
-    return false;
+ADM* inserirADM(ADM* raiz, ADM* novo) {
+    if (raiz == NULL) return novo;
+    if (strcmp(novo->nome, raiz->nome) < 0)
+        raiz->esquerda = inserirADM(raiz->esquerda, novo);
+    else
+        raiz->direita = inserirADM(raiz->direita, novo);
+    return raiz;
 }
 
-void mostrarMenu(MenuNode* node) {
-    if (!node) return;
-
-    int escolha;
-    do {
-        cout << "\n\t--- " << node->name << " ---\n";
-        for (size_t i = 0; i < node->children.size(); ++i) {
-            cout << "\t" << i + 1 << ". " << node->children[i]->name << "\n";
-        }
-        cout << "\t0. Voltar\n";
-        cout << "\n\tEscolha uma opção: ";
-        cin >> escolha;
-        cin.ignore();
-
-        if (escolha > 0 && escolha <= node->children.size()) {
-            mostrarMenu(node->children[escolha - 1]);
-        } else if (escolha != 0) {
-            cout << "\n\tOpção inválida. Tente novamente.\n";
-        }
-    } while (escolha != 0);
+Usuario* buscarUsuario(Usuario* raiz, char* email) {
+    if (raiz == NULL || strcmp(raiz->email, email) == 0)
+        return raiz;
+    if (strcmp(email, raiz->email) < 0)
+        return buscarUsuario(raiz->esquerda, email);
+    else
+        return buscarUsuario(raiz->direita, email);
 }
 
-void mostrarMenuUsuario() {
-    // Criação da árvore de menus para Usuário Comum
-    MenuNode* root = new MenuNode("Menu Usuário Comum");
-    root->children.push_back(new MenuNode("Configurações"));
-    root->children.push_back(new MenuNode("Termos e Condições"));
-    root->children.push_back(new MenuNode("Fale Conosco"));
-    root->children.push_back(new MenuNode("Sobre Nós"));
-
-    mostrarMenu(root);
+ORG* buscarORG(ORG* raiz, char* email) {
+    if (raiz == NULL || strcmp(raiz->email, email) == 0)
+        return raiz;
+    if (strcmp(email, raiz->email) < 0)
+        return buscarORG(raiz->esquerda, email);
+    else
+        return buscarORG(raiz->direita, email);
 }
 
-void mostrarMenuORG() {
-    // Criação da árvore de menus para ORG
-    MenuNode* root = new MenuNode("Menu ORG");
-    root->children.push_back(new MenuNode("Configurações"));
-    root->children.push_back(new MenuNode("Termos e Condições"));
-    root->children.push_back(new MenuNode("Fale Conosco"));
-    root->children.push_back(new MenuNode("Sobre Nós"));
-
-    mostrarMenu(root);
-}
-
-void mostrarMenuADM() {
-    // Criação da árvore de menus para ADM
-    MenuNode* root = new MenuNode("Menu ADM");
-    root->children.push_back(new MenuNode("Configurações"));
-    root->children.push_back(new MenuNode("Termos e Condições"));
-    root->children.push_back(new MenuNode("Fale Conosco"));
-    root->children.push_back(new MenuNode("Sobre Nós"));
-
-    mostrarMenu(root);
-}
-
-void configurarTema() {
-    int escolha;
-    cout << "\t\n--- Configurações de Tema ---\n";
-    cout << "\t1. Modo Escuro\n";
-    cout << "\t2. Modo Claro\n";
-    cout << "\t3. Modo Sistema\n";
-    cout << "\n\tEscolha uma opção: ";
-    cin >> escolha;
-    cin.ignore();
-    cout << "\n\tTema configurado com sucesso.\n";
-}
-
-void configurarConta() {
-    int escolha;
-    cout << "\t\n--- Configurações de Conta ---\n";
-    cout << "\t1. Alterar Email\n";
-    cout << "\t2. Redefinir Senha\n";
-    cout << "\t3. Excluir Conta\n";
-    cout << "\n\tEscolha uma opção: ";
-    cin >> escolha;
-    cin.ignore();
-    cout << "\n\tConfiguração alterada com sucesso.\n";
-}
-
-void mostrarTermos() {
-    cout << "\t\n--- Termos e Condições ---\n";
-    cout << "\n\tAqui estão os termos e condições do serviço...\n";
-}
-
-void falarConosco() {
-    cout << "\t\n--- Fale Conosco ---\n";
-    cout << "\n\tEntre em contato conosco pelo email...\n";
-}
-
-void sobreNos() {
-    cout << "\t\n--- Sobre Nós ---\n";
-    cout << "\n\tInformações sobre a organização...\n";
+ADM* buscarADM(ADM* raiz, char* nome) {
+    if (raiz == NULL || strcmp(raiz->nome, nome) == 0)
+        return raiz;
+    if (strcmp(nome, raiz->nome) < 0)
+        return buscarADM(raiz->esquerda, nome);
+    else
+        return buscarADM(raiz->direita, nome);
 }
 
 int main() {
-    int escolha;
-    do {
-        cout << "\n\t--- Menu Principal ---\n";
-        cout << "\n\t1. Registrar Usuário Comum\n";
-        cout << "\t2. Registrar ORG\n";
-        cout << "\t3. Registrar ADM\n";
-        cout << "\t4. Login Usuário Comum\n";
-        cout << "\t5. Login ORG\n";
-        cout << "\t6. Login ADM\n";
-        cout << "\t0. Sair\n";
-        cout << "\n\tEscolha uma opção: ";
-        cin >> escolha;
-        cin.ignore();
+    Usuario* usuarios = NULL;
+    ORG* orgs = NULL;
+    ADM* adms = NULL;
 
-        switch (escolha) {
-            case 1:
-                registrarUsuarioComum();
-                break;
-            case 2:
-                registrarORG();
-                break;
-            case 3:
-                registrarADM();
-                break;
-            case 4:
-                if (loginUsuarioComum()) return 0;
-                break;
-            case 5:
-                if (loginORG()) return 0;
-                break;
-            case 6:
-                if (loginADM()) return 0;
-                break;
-            case 0:
-                cout << "\n\tSaindo...\n";
-                break;
-            default:
-                cout << "\n\tOpção inválida. Tente novamente.\n";
-        }
-    } while (escolha != 0);
+    usuarios = inserirUsuario(usuarios, criarUsuario("usuario1@example.com", "senha1", "Usuario Um", "11111111111", "Endereco 1", "Contato 1"));
+    orgs = inserirORG(orgs, criarORG("org1@example.com", "senha1", "Nome Fantasia 1", "Razao Social 1", "11111111111111", "Endereco 1", "Contato 1", "Descricao 1", "Categoria 1"));
+    adms = inserirADM(adms, criarADM("Admin Um", "senha1"));
+
+    Usuario* u = buscarUsuario(usuarios, "usuario1@example.com");
+    if (u != NULL)
+        printf("Usuario encontrado: %s\n", u->nome);
+    else
+        printf("Usuario nao encontrado\n");
+
+    ORG* o = buscarORG(orgs, "org1@example.com");
+    if (o != NULL)
+        printf("ORG encontrada: %s\n", o->nome_fantasia);
+    else
+        printf("ORG nao encontrada\n");
+
+    ADM* a = buscarADM(adms, "Admin Um");
+    if (a != NULL)
+        printf("ADM encontrado: %s\n", a->nome);
+    else
+        printf("ADM nao encontrado\n");
 
     return 0;
 }

@@ -1,0 +1,58 @@
+Pessoa 1: Como Usar Árvores Binárias de Busca (BSTs)
+1. Estruturas de Dados
+
+Usuário: Guarda informações como email, senha, nome, CPF, endereço e contatos. Cada usuário tem links para outros usuários à esquerda e à direita.
+ORG: Semelhante ao usuário, mas guarda dados específicos de organizações como nome fantasia, razão social, CNPJ, etc.
+ADM: Estrutura mais simples com nome e senha, também com links para a esquerda e direita.
+2. Funções de Criação
+
+criarUsuario, criarORG, criarADM: Criam novos registros com os dados fornecidos e retornam novos nós para serem inseridos na árvore.
+3. Funções de Inserção
+
+inserirUsuario, inserirORG, inserirADM: Inserem os novos nós nas árvores binárias, mantendo a ordem dos emails ou nomes para facilitar buscas rápidas.
+4. Funções de Busca
+
+buscarUsuario, buscarORG, buscarADM: Procuram registros específicos na árvore, retornando o nó correspondente se encontrado.
+5. Registro e Login
+
+Registro: Adiciona novos usuários, organizações e administradores nas suas árvores respectivas.
+Login: Busca o registro na árvore usando o email ou nome e verifica a senha.
+6. Configurações
+
+Alterar Informações: Busca o nó correspondente e atualiza os dados do usuário ou da organização.
+Alterar Email/Senha: Atualiza esses campos no nó encontrado.
+Implementação com Grafos
+Pessoa 2: Como Usar Grafos
+1. Estruturas de Dados
+
+Vértice: Representa cada usuário, organização ou administrador, armazenando seus dados principais.
+Grafo: Mantém uma lista de vértices e suas conexões, podendo usar uma matriz ou lista de adjacências para mostrar como estão relacionados.
+2. Funções de Criação
+
+criarVertice: Cria um novo vértice com os dados fornecidos.
+criarGrafo: Inicializa um grafo vazio com capacidade para adicionar vértices e conexões.
+3. Funções de Inserção
+
+inserirVertice: Adiciona um novo vértice ao grafo.
+inserirAresta: Cria uma conexão entre dois vértices, representando uma relação entre eles.
+4. Funções de Busca
+
+buscarVertice: Encontra um vértice específico no grafo pelo email ou nome.
+5. Registro e Login
+
+Registro: Adiciona novos vértices para cada usuário, organização e administrador no grafo. As conexões podem mostrar relações, como um voluntário associado a uma organização.
+Login: Encontra o vértice pelo email ou nome e verifica a senha.
+6. Configurações
+
+Alterar Informações: Atualiza os dados no vértice correspondente.
+Alterar Email/Senha: Atualiza esses campos no vértice encontrado.
+Comparação e Benefícios
+Árvores Binárias de Busca (BSTs)
+Vantagens: Simples e eficaz para inserção e busca. Boa para dados organizados hierarquicamente.
+Desvantagens: Pode ficar desbalanceada, o que prejudica o desempenho.
+Grafos
+Vantagens: Flexível para modelar relações complexas. Ideal para representar redes e conexões.
+Desvantagens: Mais complexa de implementar e manter.
+Resumo
+BSTs são ótimas para uma estrutura hierárquica simples, facilitando inserções e buscas rápidas.
+Grafos são ideais para modelar relacionamentos complexos e interconectados, mas exigem mais esforço para implementar e gerenciar.

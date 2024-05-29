@@ -1,0 +1,86 @@
+Árvores Binárias de Busca (BSTs)
+Uma árvore binária de busca é uma estrutura de dados hierárquica na qual cada nó tem no máximo dois filhos, chamados de esquerdo e direito. As árvores binárias de busca têm as seguintes propriedades:
+
+O valor de cada nó da subárvore esquerda é menor do que o valor do nó raiz.
+O valor de cada nó da subárvore direita é maior do que o valor do nó raiz.
+No código, utilizamos árvores binárias de busca para armazenar três tipos diferentes de registros (usuários, organizações e administradores), com comparações baseadas em email ou nome.
+
+Estrutura do Código com BSTs
+Definição das Estruturas de Dados:
+
+As estruturas Usuario, ORG, e ADM representam nós de árvores binárias de busca, com campos de dados relevantes e dois ponteiros (esquerda e direita) para formar a árvore.
+Funções de Criação:
+
+As funções criarUsuario, criarORG, e criarADM inicializam os nós com os dados fornecidos.
+Funções de Inserção:
+
+As funções inserirUsuario, inserirORG, e inserirADM inserem novos nós nas árvores binárias de busca seguindo as regras da BST.
+Funções de Busca:
+
+As funções buscarUsuario, buscarORG, e buscarADM procuram um nó específico na árvore, retornando o nó se encontrado ou NULL se não encontrado.
+Código e Estruturas de BSTs
+
+Vamos revisar brevemente o código para reforçar a utilização de BSTs:
+"""
+typedef struct Usuario {
+    char email[50];
+    char senha[50];
+    char nome[50];
+    char cpf[12];
+    char endereco[100];
+    char contatos[50];
+    struct Usuario *esquerda;
+    struct Usuario *direita;
+} Usuario;
+"""
+Estrutura Usuario como um nó de BST.
+
+Funções de Criação:
+"""
+Usuario* criarUsuario(char* email, char* senha, char* nome, char* cpf, char* endereco, char* contatos) {
+    Usuario* novo = (Usuario*)malloc(sizeof(Usuario));
+    strcpy(novo->email, email);
+    strcpy(novo->senha, senha);
+    strcpy(novo->nome, nome);
+    strcpy(novo->cpf, cpf);
+    strcpy(novo->endereco, endereco);
+    strcpy(novo->contatos, contatos);
+    novo->esquerda = novo->direita = NULL;
+    return novo;
+}
+"""
+Função para criar um nó Usuario.
+
+Funções de Inserção: 
+"""
+Usuario* inserirUsuario(Usuario* raiz, Usuario* novo) {
+    if (raiz == NULL) return novo;
+    if (strcmp(novo->email, raiz->email) < 0)
+        raiz->esquerda = inserirUsuario(raiz->esquerda, novo);
+    else
+        raiz->direita = inserirUsuario(raiz->direita, novo);
+    return raiz;
+}
+"""
+Função para inserir um nó Usuario na árvore, mantendo as propriedades da BST.
+
+Funções de Busca:
+"""
+Usuario* buscarUsuario(Usuario* raiz, char* email) {
+    if (raiz == NULL || strcmp(raiz->email, email) == 0)
+        return raiz;
+    if (strcmp(email, raiz->email) < 0)
+        return buscarUsuario(raiz->esquerda, email);
+    else
+        return buscarUsuario(raiz->direita, email);
+}
+"""
+Função para buscar um nó Usuario na árvore.
+
+Conclusão
+O código utiliza árvores binárias de busca (BSTs) para organizar e buscar informações de usuários, organizações e administradores. Ele não utiliza grafos, que são uma estrutura de dados mais geral onde os nós podem ter um número arbitrário de conexões (arestas), não necessariamente formando uma hierarquia como as árvores.
+
+Exemplos de Uso
+Inserção: Adiciona um novo usuário na posição correta na árvore para garantir a ordem dos emails.
+Busca: Procura um usuário específico pelo email, navegando pela árvore de acordo com as comparações de emails.
+Esta estrutura facilita operações de busca, inserção e ordenação, tornando as BSTs adequadas para cenários onde esses tipos de operações são frequentes.
